@@ -61,9 +61,10 @@ Redoc: http://127.0.0.1:8000/redoc
 
 Cobertura de pruebas
 Ejecuta los tests unitarios y genera un reporte de cobertura:
-
+```bash
 coverage run -m pytest
 coverage report
+```
 
 ## **Licencia**
 
