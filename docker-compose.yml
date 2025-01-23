@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  app:
+    build: .
+    container_name: eventos_app
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/eventos
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    networks:
+      - eventos_net
+
+  db:
+    image: postgres:13
+    container_name: eventos_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: eventos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - eventos_net
+
+  # Servicio para ejecutar los tests
+  test:
+    build: .
+    container_name: eventos_test
+    command: ["pytest", "--maxfail=1", "--disable-warnings", "-q"]
+    depends_on:
+      - db
+    networks:
+      - eventos_net
+
+volumes:
+  postgres_data:
+
+networks:
+  eventos_net:
+    driver: bridge

@@ -25,7 +25,7 @@ async def create_event_endpoint(event: EventCreate, db: Session = Depends(get_db
     return create_event(db, event)
 
 @router.post("/{event_id}/attendees/", response_model=EventResponseModel)
-def add_attendees_endpoint(event_id: int, attendees: List[AttendeeRequestModel], db: Session = Depends(get_db)):
+async def add_attendees_endpoint(event_id: int, attendees: List[AttendeeRequestModel], db: Session = Depends(get_db)):
     """
     Add attendees endpoint.
     :param event_id:
